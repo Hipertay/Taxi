@@ -27,6 +27,8 @@ public class PathFollower : MonoBehaviour
     bool isEnd = false;
     public GameObject windowRoad;
     bool isSelectRoad = false;
+    [HideInInspector]public bool checkPeople = false;
+    GameObject people;
 
     void Start()
     {
@@ -68,32 +70,36 @@ public class PathFollower : MonoBehaviour
                 transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
                 transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
 
-                if (transform.position == pathCreator.path.GetPoint(pathCreator.path.NumPoints - 1))
+                if (transform.position == pathCreator.path.GetPoint(pathCreator.path.NumPoints - 1) & !isEnd)
                 {
-                    Win();
+                    isEnd = true;
+                    people.SetActive(true);
+                    people.GetComponent<PeopleFollow>().SetUpFollowEnd();
                 }
             }
-
-            if (Input.GetMouseButtonDown(0) & !isEnd)
+            if (!checkPeople & !isEnd)
             {
-                if (tapIsMove)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    StartCoroutine("SpeedUp");
+                    if (tapIsMove)
+                    {
+                        StartCoroutine("SpeedUp");
+                    }
+                    else
+                    {
+                        StartCoroutine("SpeedDawn");
+                    }
                 }
-                else
+                else if (Input.GetMouseButtonUp(0))
                 {
-                    StartCoroutine("SpeedDawn");
-                }
-            }
-            else if (Input.GetMouseButtonUp(0) & !isEnd)
-            {
-                if (tapIsMove)
-                {
-                    StartCoroutine("SpeedDawn");
-                }
-                else
-                {
-                    StartCoroutine("SpeedUp");
+                    if (tapIsMove)
+                    {
+                        StartCoroutine("SpeedDawn");
+                    }
+                    else
+                    {
+                        StartCoroutine("SpeedUp");
+                    }
                 }
             }
         }
@@ -132,7 +138,6 @@ public class PathFollower : MonoBehaviour
 
     public void Win()
     {
-        isEnd = true;
         StartCoroutine(WinLevel());
     }
 
@@ -163,5 +168,17 @@ public class PathFollower : MonoBehaviour
     public void ReloadLevel()
     {
         SceneManager.LoadSceneAsync(0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("People"))
+        {
+            checkPeople = true;
+            people = other.gameObject;
+            StartCoroutine("SpeedDawn");
+            other.GetComponent<PeopleFollow>().target = transform;
+            other.GetComponent<PeopleFollow>().SetUpFollow();
+        }
     }
 }
