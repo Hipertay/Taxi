@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4000010007557314}
   - component: {fileID: 33000013809595820}
   - component: {fileID: 23000011151567412}
-  - component: {fileID: 64000013002597122}
   m_Layer: 0
   m_Name: Toll_Booth_1A
   m_TagString: Untagged
@@ -167,20 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64000013002597122
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010499051808}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: efbfe35231a10477b88d57eb3c967421, type: 3}
 --- !u!1 &1000010799366230
 GameObject:
   m_ObjectHideFlags: 0

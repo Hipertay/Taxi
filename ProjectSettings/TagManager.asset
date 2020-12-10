@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CarBot
   - People
+  - Taxi
   layers:
   - Default
   - TransparentFX

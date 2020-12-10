@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4181820422842610}
   - component: {fileID: 33008303551874710}
   - component: {fileID: 23374452398460512}
-  - component: {fileID: 64665408174797858}
   m_Layer: 0
   m_Name: Brownstone_4A
   m_TagString: Untagged
@@ -164,17 +163,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64665408174797858
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1840289353413754}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 5a148fa1b1bb84ad0a49d25e3da9b7d5, type: 3}

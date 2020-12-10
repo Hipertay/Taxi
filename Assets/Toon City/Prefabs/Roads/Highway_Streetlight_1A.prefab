@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4000013299787690}
   - component: {fileID: 33000010086114234}
   - component: {fileID: 23000013128869108}
-  - component: {fileID: 65000014038802840}
   - component: {fileID: 65000012449196998}
   m_Layer: 0
   m_Name: Highway_Streetlight_1A
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65000014038802840
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010442979964}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.8, y: 8.892273, z: 0.8}
-  m_Center: {x: 0, y: 3.1984928, z: 0}
 --- !u!65 &65000012449196998
 BoxCollider:
   m_ObjectHideFlags: 0

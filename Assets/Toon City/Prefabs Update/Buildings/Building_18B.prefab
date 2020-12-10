@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4015347294354718}
   - component: {fileID: 33684552681768534}
   - component: {fileID: 23313284891260214}
-  - component: {fileID: 64681187785097592}
   m_Layer: 0
   m_Name: Building_18B
   m_TagString: Untagged
@@ -83,20 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64681187785097592
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1049860292978534}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 35ba1758c6b02443f91abefc27a6615f, type: 3}
 --- !u!1 &1389507203679706
 GameObject:
   m_ObjectHideFlags: 0

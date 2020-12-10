@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4000011335585784}
   - component: {fileID: 33000012860862420}
   - component: {fileID: 23000010381347858}
-  - component: {fileID: 64000014284595818}
   m_Layer: 0
   m_Name: News_Helicopter_1A
   m_TagString: Untagged
@@ -84,20 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64000014284595818
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010646557964}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 659e621d45df64e7aa5f17c55dea0c5b, type: 3}
 --- !u!1 &1000011059201872
 GameObject:
   m_ObjectHideFlags: 0

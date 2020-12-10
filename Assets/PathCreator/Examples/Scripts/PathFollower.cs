@@ -9,11 +9,9 @@ using UnityEngine.SceneManagement;
 public class PathFollower : MonoBehaviour
 {
     public List<PathCreator> allPathCreator = new List<PathCreator>();
-    public List<MeshRenderer> allPathMesh = new List<MeshRenderer>();
-
     public List<GameObject> allBots = new List<GameObject>();
     public List<GameObject> allBotsPath = new List<GameObject>();
-    [HideInInspector]public PathCreator pathCreator;
+    public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction;
     public float speed = 5;
     public float tempSpeed = 0f;
@@ -24,27 +22,60 @@ public class PathFollower : MonoBehaviour
     public GameObject windowWin;
     public GameObject windowLose;
     public float delayWindowSet = 1f;
-    bool isEnd = false;
+    [HideInInspector] bool isEnd = false;
     public GameObject windowRoad;
-    bool isSelectRoad = false;
-    [HideInInspector]public bool checkPeople = false;
+    [HideInInspector]bool isSelectRoad = false;
+    public bool checkPeople = false;
     GameObject people;
+    public DetectionObjects _detectObj;
+
+    public GameObject[] roadArrows;
+    public List<PeopleFollow> allPeople = new List<PeopleFollow>();
+
+    public List<GameObject> wheels = new List<GameObject>();
+    public GameObject trail;
+    public List<GameObject> smoke = new List<GameObject>();
+    public GameObject _camera;
+    Vector3 cameraStartPos;
+    Quaternion cameraStartRot;
+
+    /*private void Awake()
+    {
+        var foundCanvasObjects = FindObjectsOfType<Rigidbody>();
+        for(int i = 0; i < foundCanvasObjects.Length; i++)
+        {
+            Debug.Log(foundCanvasObjects[i].name);
+        }
+    }*/
 
     void Start()
     {
         Application.targetFrameRate = 60;
-        
+        cameraStartPos = _camera.transform.localPosition;
+        cameraStartRot = _camera.transform.localRotation;
     }
 
     public void CheckRoad(int countRoad)
     {
+        for (int i = 0; i < smoke.Count; i++)
+        {
+            smoke[i].SetActive(false);
+        }
+        for (int i = 0; i < allPathCreator.Count; i++)
+        {
+            allBots[i].SetActive(true);
+            allBotsPath[i].SetActive(true);
+            roadArrows[i].SetActive(false);
+        }
+
+        roadArrows[countRoad].SetActive(true);
+
         windowRoad.SetActive(false);
         pathCreator = allPathCreator[countRoad];
-        for (int i = 0; i < allPathMesh.Count; i++)
+        for (int i = 0; i < allPathCreator.Count; i++)
         {
             if (i != countRoad)
             {
-                allPathMesh[i].enabled = false;
                 allBots[i].SetActive(false);
                 allBotsPath[i].SetActive(false);
             }
@@ -57,6 +88,10 @@ public class PathFollower : MonoBehaviour
         if (!tapIsMove)
         {
             StartCoroutine("SpeedUp");
+        }
+        for (int i = 0; i < smoke.Count; i++)
+        {
+            smoke[i].SetActive(true);
         }
     }
 
@@ -83,10 +118,13 @@ public class PathFollower : MonoBehaviour
                 {
                     if (tapIsMove)
                     {
+                        OffTrail();
                         StartCoroutine("SpeedUp");
                     }
                     else
                     {
+                        if (tempSpeed > speed / 2f)
+                            OnTrail();
                         StartCoroutine("SpeedDawn");
                     }
                 }
@@ -94,13 +132,39 @@ public class PathFollower : MonoBehaviour
                 {
                     if (tapIsMove)
                     {
+                        if(tempSpeed > speed / 2f)
+                            OnTrail();
                         StartCoroutine("SpeedDawn");
                     }
                     else
                     {
+                        OffTrail();
                         StartCoroutine("SpeedUp");
                     }
                 }
+            }
+        }
+    }
+
+    GameObject tempTrail;
+
+    void OnTrail()
+    {
+        for (int i = 0; i < wheels.Count; i++)
+        {
+            tempTrail = GameObjectPool.Spawn(trail, wheels[i].transform.position, Quaternion.identity);
+            tempTrail.GetComponent<TrailRenderer>().Clear();
+            tempTrail.transform.parent = wheels[i].transform;
+        }
+    }
+
+    public void OffTrail()
+    {
+        for (int i = 0; i < wheels.Count; i++)
+        {
+            if (wheels[i].transform.childCount > 0)
+            {
+                wheels[i].transform.GetChild(0).parent = null;
             }
         }
     }
@@ -110,10 +174,19 @@ public class PathFollower : MonoBehaviour
         StopCoroutine("SpeedDawn");
         while (tempSpeed < speed)
         {
-            yield return new WaitForSeconds(0.1f);
-            if(tempSpeed + speed / timeToMaxSpeed <= speed)
+            yield return null;
+            if (!checkPeople & !isEnd)
             {
-                tempSpeed += speed / timeToMaxSpeed;
+                if (tempSpeed + speed / timeToMaxSpeed <= speed)
+                {
+                    tempSpeed += speed / timeToMaxSpeed;
+                }
+                else
+                {
+                    tempSpeed = speed;
+                    StopCoroutine("SpeedUp");
+                    break;
+                }
             }
         }
     }
@@ -123,10 +196,37 @@ public class PathFollower : MonoBehaviour
         StopCoroutine("SpeedUp");
         while (tempSpeed > 0)
         {
-            yield return new WaitForSeconds(0.1f);
-            if(tempSpeed - speed / timeToMaxSpeed >= 0f)
+            yield return null;
+            if (!checkPeople & !isEnd)
             {
-                tempSpeed -= speed / timeToMaxSpeed;
+                if (tempSpeed - speed / timeToMaxSpeed >= 0f)
+                {
+                    tempSpeed -= speed / timeToMaxSpeed;
+                }
+                else
+                {
+                    tempSpeed = 0f;
+                    StopCoroutine("SpeedDawn");
+                    break;
+                }
+            }
+        }
+    }
+
+    PathFollowerBot _bot;
+
+    public void SetBotSpeedOff()
+    {
+        for (int i = 0; i < allBots.Count; i++)
+        {
+            for (int k = 0; k < allBots[i].transform.childCount; k++)
+            {
+                if (allBots[i].transform.GetChild(k).GetComponent<PathFollowerBot>())
+                {
+                    _bot = allBots[i].transform.GetChild(k).GetComponent<PathFollowerBot>();
+                    _bot.enabled = false;
+                    _bot._botRigidbody.isKinematic = false;
+                }
             }
         }
     }
@@ -150,6 +250,7 @@ public class PathFollower : MonoBehaviour
 
     IEnumerator LoseLevel()
     {
+        SetBotSpeedOff();
         yield return new WaitForSeconds(delayWindowSet);
         windowLose.SetActive(true);
     }
@@ -160,23 +261,77 @@ public class PathFollower : MonoBehaviour
         windowWin.SetActive(true);
     }
 
+    void RestartLevel()
+    {
+        _camera.transform.parent = transform;
+        _camera.transform.localPosition = cameraStartPos;
+        _camera.transform.localRotation = cameraStartRot;
+        for (int i = 0; i < smoke.Count; i++)
+        {
+            smoke[i].SetActive(false);
+        }
+        for (int i = 0; i < wheels.Count; i++)
+        {
+            if (wheels[i].transform.childCount > 0)
+            {
+                GameObjectPool.Unspawn(wheels[i].transform.GetChild(0).gameObject);
+                wheels[i].transform.GetChild(0).parent = null;
+            }
+        }
+        distanceTravelled = 0;
+        for (int i = 0; i < allPathCreator.Count; i++)
+        {
+            allBots[i].SetActive(false);
+            allBotsPath[i].SetActive(false);
+            roadArrows[i].SetActive(false);
+            allPeople[i].GoToStart();
+
+            for (int k = 0; k < allBots[i].transform.childCount; k++)
+            {
+                if (allBots[i].transform.GetChild(k).GetComponent<PathFollowerBot>())
+                {
+                    _bot = allBots[i].transform.GetChild(k).GetComponent<PathFollowerBot>();
+                    _bot.distanceTravelled = 0;
+                    _bot.enabled = true;
+                    _bot._botRigidbody.isKinematic = true;
+                }
+            }
+        }
+
+        this.enabled = true;
+        checkPeople = false;
+        isEnd = false;
+        //_detectObj._heroRigidbody.isKinematic = true;
+        _detectObj._heroCollider.isTrigger = true;
+        for (int i = 0; i < smoke.Count; i++)
+        {
+            smoke[i].SetActive(true);
+        }
+    }
+
     public void NextLevel()
     {
-        SceneManager.LoadSceneAsync(0);
+        windowRoad.SetActive(true);
+        RestartLevel();
+        windowWin.SetActive(false);
     }
 
     public void ReloadLevel()
     {
-        SceneManager.LoadSceneAsync(0);
+        windowRoad.SetActive(true);
+        RestartLevel();
+        windowLose.SetActive(false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("People"))
         {
+            OnTrail();
             checkPeople = true;
             people = other.gameObject;
-            StartCoroutine("SpeedDawn");
+            //StartCoroutine("SpeedDawn");
+            tempSpeed = 0;
             other.GetComponent<PeopleFollow>().target = transform;
             other.GetComponent<PeopleFollow>().SetUpFollow();
         }

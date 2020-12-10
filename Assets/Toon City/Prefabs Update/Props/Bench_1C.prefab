@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 4971240043263082}
   - component: {fileID: 33341642077985186}
   - component: {fileID: 23382998652506744}
-  - component: {fileID: 65186497844949374}
   m_Layer: 0
   m_Name: Bench_1C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4971240043263082
 Transform:
@@ -82,16 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65186497844949374
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1107118385490408}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.79802704, y: 1.05, z: 2.7338195}
-  m_Center: {x: 0.0034571737, y: 0.525, z: 0.00412488}

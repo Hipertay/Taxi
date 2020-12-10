@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4000010861012424}
   - component: {fileID: 33000011253928818}
   - component: {fileID: 23000010642626868}
-  - component: {fileID: 65000013658021350}
   m_Layer: 0
   m_Name: Hydrant_1A
   m_TagString: Untagged
@@ -82,16 +81,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65000013658021350
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012467594204}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.7328325, y: 1.6399095, z: 0.69790417}
-  m_Center: {x: 0.034543067, y: 0.81995475, z: -0.000000029802322}

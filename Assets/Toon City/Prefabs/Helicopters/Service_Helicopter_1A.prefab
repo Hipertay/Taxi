@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 4000010132349710}
   - component: {fileID: 33000013364417004}
   - component: {fileID: 23000012642182610}
-  - component: {fileID: 64000010675766890}
   m_Layer: 0
   m_Name: Service_Helicopter_1A
   m_TagString: Untagged
@@ -180,20 +179,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64000010675766890
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013197929630}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 521c64171f22a41c0ba6d2af01834071, type: 3}
 --- !u!1 &1000013434940404
 GameObject:
   m_ObjectHideFlags: 0

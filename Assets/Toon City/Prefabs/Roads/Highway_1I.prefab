@@ -107,7 +107,6 @@ GameObject:
   - component: {fileID: 4126643564960428}
   - component: {fileID: 33551482519971694}
   - component: {fileID: 23497234141886624}
-  - component: {fileID: 64580852739275100}
   m_Layer: 0
   m_Name: Highway_1I
   m_TagString: Untagged
@@ -179,17 +178,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &64580852739275100
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957653985577786}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 61439f0f13c034e5ba343f80c68e328b, type: 3}
