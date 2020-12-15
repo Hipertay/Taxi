@@ -9,6 +9,7 @@ public class PeopleFollow : MonoBehaviour
     public float timeDelay = 2f;
     public float timeMove = 3f;
     public Transform endPosition;
+    public Transform endPosition_2;
     BoxCollider _collider;
     Vector3 startPosition;
     Quaternion startRotation;
@@ -63,9 +64,10 @@ public class PeopleFollow : MonoBehaviour
         transform.DOLookAt(endPosition.position, 0f);
         transform.position = target.position;
         transform.DOMove(endPosition.position, timeMove);
-        yield return new WaitForSeconds(timeMove);
-        _anim.SetInteger("animation", 0);
+        yield return new WaitForSeconds(timeMove * 0.75f);
         target.GetComponent<PathFollower>().Win();
+        transform.DOLookAt(endPosition_2.position, 0f);
+        transform.DOMove(endPosition_2.position, 10f);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -74,8 +76,9 @@ public class PeopleFollow : MonoBehaviour
         {
             _colliderSphere.enabled = false;
             target.GetComponent<PathFollower>().checkPeople = false;
-            gameObject.SetActive(false);
             target.GetComponent<PathFollower>().OffTrail();
+            target.GetComponent<PathFollower>().tempSpeed = 0f;
+            gameObject.SetActive(false);
         }
     }
 }

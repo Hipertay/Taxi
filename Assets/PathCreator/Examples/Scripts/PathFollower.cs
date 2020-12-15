@@ -21,7 +21,8 @@ public class PathFollower : MonoBehaviour
 
     public GameObject windowWin;
     public GameObject windowLose;
-    public float delayWindowSet = 1f;
+    public float delayWindowWin = 1f;
+    public float delayWindowLose = 1f;
     [HideInInspector] bool isEnd = false;
     public GameObject windowRoad;
     [HideInInspector]bool isSelectRoad = false;
@@ -38,15 +39,8 @@ public class PathFollower : MonoBehaviour
     public GameObject _camera;
     Vector3 cameraStartPos;
     Quaternion cameraStartRot;
+    public CameraFollowObjectSmooth _cam;
 
-    /*private void Awake()
-    {
-        var foundCanvasObjects = FindObjectsOfType<Rigidbody>();
-        for(int i = 0; i < foundCanvasObjects.Length; i++)
-        {
-            Debug.Log(foundCanvasObjects[i].name);
-        }
-    }*/
 
     void Start()
     {
@@ -93,6 +87,12 @@ public class PathFollower : MonoBehaviour
         {
             smoke[i].SetActive(true);
         }
+        isEnd = false;
+        tempSpeed = 0f;
+        distanceTravelled = 0.1f;
+        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
+        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+        _cam.ToStartPos();
     }
 
     void Update()
@@ -112,7 +112,7 @@ public class PathFollower : MonoBehaviour
                     people.GetComponent<PeopleFollow>().SetUpFollowEnd();
                 }
             }
-            if (!checkPeople & !isEnd)
+            if (!checkPeople & !isEnd & !windowRoad.activeSelf & !windowLose.activeSelf & !windowWin.activeSelf)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -238,6 +238,8 @@ public class PathFollower : MonoBehaviour
 
     public void Win()
     {
+        isEnd = true;
+        tempSpeed = 0f;
         StartCoroutine(WinLevel());
     }
 
@@ -251,13 +253,13 @@ public class PathFollower : MonoBehaviour
     IEnumerator LoseLevel()
     {
         SetBotSpeedOff();
-        yield return new WaitForSeconds(delayWindowSet);
+        yield return new WaitForSeconds(delayWindowLose);
         windowLose.SetActive(true);
     }
 
     IEnumerator WinLevel()
     {
-        yield return new WaitForSeconds(delayWindowSet);
+        yield return new WaitForSeconds(delayWindowWin);
         windowWin.SetActive(true);
     }
 
@@ -300,8 +302,6 @@ public class PathFollower : MonoBehaviour
 
         this.enabled = true;
         checkPeople = false;
-        isEnd = false;
-        //_detectObj._heroRigidbody.isKinematic = true;
         _detectObj._heroCollider.isTrigger = true;
         for (int i = 0; i < smoke.Count; i++)
         {
